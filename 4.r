@@ -1,6 +1,7 @@
-S2304671, Jiayi Li, commenting for the code， data realization and correcting. 
-
-
+## Jiayi Li, S2304671 :  commenting for the code, coding realization and correcting. 
+## Rongkai Fang, s2310813 : commenting for the code, coding designing and guidance.
+## Yifan Hu, s2287683 ： commenting for the code, coding realization and correcting. 
+## every one contribute roughly equal on this project. 
 
 
 # finite difference when hessian function is not given 
