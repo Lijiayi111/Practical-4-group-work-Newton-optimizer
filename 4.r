@@ -4,7 +4,12 @@
 ## every one contribute roughly equal on this project. 
 
 
-# finite difference when hessian function is not given 
+#finite difference when hessian function is not given
+#Input:
+#theta, a vector of initial values for the optimization parameters.
+#gradient, the gradient function.
+#eps, finite difference interval
+#Output:approximated hessian matrix.
 Hessian <- function(theta,gradient,eps=1e-6,...){ # eps is finite difference interval
   grad0 <- grad(theta,...) # grad of function at initial theta. 
   Hfd <- matrix(0L, nrow = length(theta), ncol = length(theta)) ## initilize finite diference Hessian
@@ -17,6 +22,30 @@ Hessian <- function(theta,gradient,eps=1e-6,...){ # eps is finite difference int
   return(Hfd) # return approximated hessian matrix. 
 }
 
+
+#This function implementing Newton’s method for minimization of functions
+#Input:
+#theta, a vector of initial values for the optimization parameters.
+#func, the objective function to minimize. Its first argument is the vector of optimization parameters. Remaining
+#arguments will be passed from newt using ‘...’.
+#grad, the gradient function. It has the same arguments as func but returns the gradient vector of the objective
+#w.r.t. the elements of parameter vector.
+#hess, the Hessian matrix function. It has the same arguments as func but returns the Hessian matrix of the
+#objective w.r.t. the elements of parameter vector. If not supplied then newt should obtain an approximation to the
+#Hessian by finite differencing of the gradient vector (hint: (t(A)+A)/2 is exactly symmetric for any matrix A).
+#... any arguments of func, grad and hess after the first (the parameter vector) are passed using this.
+#tol, the convergence tolerance.
+#fscale, a rough estimate of the magnitude of func near the optimum - used in convergence testing.
+#maxit, the maximum number of Newton iterations to try before giving up.
+#max.half, the maximum number of times a step should be halved before concluding that the step has failed to
+#improve the objective.
+#eps, the finite difference intervals to use when a Hessian function is not provided.
+#Output:
+#f, the value of the objective function at the minimum.
+#theta, the value of the parameters at the minimum.
+#iter, the number of iterations taken to reach the minimum.
+#g, the gradient vector at the minimum (so the user can judge closeness to numerical zero).
+#Hi, the inverse of the Hessian matrix at the minimum (useful if the objective is a negative log likelihood).
 
 
 newt <- function(theta,func,grad,hess=NULL,...,tol=1e-8,fscale=1,maxit=100,max.half=20,eps=1e-6){
