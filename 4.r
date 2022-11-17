@@ -120,8 +120,7 @@ newt <- function(theta,func,grad,hess=NULL,...,tol=1e-8,fscale=1,maxit=100,max.h
 
 
 
-th <- c(1.1,10)
-newt(theta=th,func = rb, grad = gb,hess = hb, tol=1e-8,fscale=1,maxit=100,max.half=20,eps=1e-6)
+ 
 
 
 
