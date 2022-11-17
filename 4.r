@@ -29,11 +29,10 @@ Hessian <- function(theta,gradient,eps=1e-6,...){ # eps is finite difference int
 #func, the objective function to minimize. Its first argument is the vector of optimization parameters. Remaining
 #arguments will be passed from newt using ‘...’.
 #grad, the gradient function. It has the same arguments as func but returns the gradient vector of the objective
-#w.r.t. the elements of parameter vector.
 #hess, the Hessian matrix function. It has the same arguments as func but returns the Hessian matrix of the
 #objective w.r.t. the elements of parameter vector. If not supplied then newt should obtain an approximation to the
-#Hessian by finite differencing of the gradient vector (hint: (t(A)+A)/2 is exactly symmetric for any matrix A).
-#... any arguments of func, grad and hess after the first (the parameter vector) are passed using this.
+#Hessian by finite differencing of the gradient vector.
+#..., any arguments of func, grad and hess after the first (the parameter vector) are passed using this.
 #tol, the convergence tolerance.
 #fscale, a rough estimate of the magnitude of func near the optimum - used in convergence testing.
 #maxit, the maximum number of Newton iterations to try before giving up.
