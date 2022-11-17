@@ -1,14 +1,12 @@
+t80 <- 1:13 ## years since 1980
+y <- c(12,14,33,50,67,74,123,141,165,204,253,246,240) ## AIDS cases
 
-
-
-hb <- function(th,k=2) {
-  h <- matrix(0,2,2)
-  h[1,1] <- 2-k*2*(2*(th[2]-th[1]ˆ2) - 4*th[1]ˆ2)
-  h[2,2] <- 2*k
-  h[1,2] <- h[2,1] <- -4*k*th[1]
-  h
-}
-
+func<- function(theta,t,y) {
+  ## -ve log likelihood for AIDS model y_i ~ Poi(alpha*exp(beta*t_i))
+  ## theta = (alpha,beta)
+  mu <- theta[1] * exp(theta[2] * t) ## mu = E(y)
+  -sum(dpois(y,mu,log=TRUE)) ## the negative log likelihood
+} ## nll
 
 grad <- function(theta,t,y) {
   ## grad of -ve log lik of Poisson AIDS early epidemic model
@@ -18,6 +16,26 @@ grad <- function(theta,t,y) {
      sum(y*t) - alpha*sum(t*ebt)) ## -dl/dbeta
 } ## gll
 
+hess <- function(theta,t,y) {
+  ## Hessian of -ve log lik of Poisson AIDS early epidemic model
+  alpha <- theta[1];beta <- theta[2] ## enhances readability
+  ebt <- exp(beta*t) ## avoid computing twice
+  H <- matrix(0,2,2) ## matrix for Hessian of -ve ll
+  71
+  H[1,1] <- sum(y)/alpha^2
+  H[2,2] <- alpha*sum(t^2*ebt)
+  H[1,2] <- H[2,1] <- sum(t*ebt)
+  H } ## hll
+
+
+fd <- th0 <- c(10,.2)
+grad(th0,t=t80,y=y)
+hess(th0,t=t80,y=y)
+Hessian(th0,func,y=y,t=t80,grad,eps =1e-8 )
+
+# object <- func(theta,...) ## ...can be used? 
+object <- func(th0,t=t80,y=y)
+gradient <- grad(th0,t=t80,y=y)
 
 
 #finite difference
