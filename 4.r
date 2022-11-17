@@ -125,8 +125,15 @@ newt <- function(theta,func,grad,hess=NULL,...,tol=1e-8,fscale=1,maxit=100,max.h
     
     # Checking whether convergence occurs when iter == maxit
     if (max(abs(gradient)) < (abs(f0)+fscale)*tol){
-      cat("Converged")
-      return(list(f0, theta, iter, gradient, Hi))
+      cat("Convergence is done")
+      if (inherits(try(chol(h),silent=TRUE),"try-error")) {
+        inver_hessian = NULL
+        warning("The Hessian is not positive definite at convergence")
+      }else{
+        # inverse of hessian matrix. 
+        inver_hessian <- chol2inv(chol(hessian)) 
+      }
+      return(list(f=object, theta=theta, iter=maxit, g=gradient, Hi=inver_hessian)) #when converse return
     } else {
       warning(paste("Newton optimizer failed to converage after
                   maxit = ", as.character(maxit), " iterations"))
