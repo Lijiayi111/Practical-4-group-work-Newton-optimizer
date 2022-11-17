@@ -83,25 +83,27 @@ newt <- function(theta,func,grad,hess=NULL,...,tol=1e-8,fscale=1,maxit=100,max.h
       # Ensuring steps are taken in right direction towards optimum (minimum)
       # a.k.a preventing optimizer from blowing up 
       number_halving = 0
-      while ((func(theta + Delta, ...)> object)|!is.finite(func(theta + Delta, ...)){
-           if (number_halving < max.half) {
-             Delta <- Delta / 2
-             number_halving <- number_halving + 1
-           } else {
-             stop(paste("The update step failed to reduce the objective
+      while ((func(theta + Delta, ...)> object)|!is.finite(func(theta + Delta, ...))){
+        if (number_halving < max.half) {
+          Delta <- Delta / 2
+          number_halving <- number_halving + 1
+        } else {
+          stop(paste("The update step failed to reduce the objective
               after ", as.character(max.half), " halvings"))
-           }
+        }
       }
      theta <- theta + Delta
      
      object<-func(theta,...)
      gradient<-grad(theta,...)
      # Hessian calculation by finite differencing if no hessian as input.
-     if(any(is.null(hess))) hessian <- hess(theta, f,...)
-     else hessian <- hess(theta,...) # Calling fd.Hessian defined above
+     if(any(is.null(hess))){
+       hessian <- Hessian(theta, f,...)
+     } else {
+       hessian <- hess(theta,...) # Calling fd.Hessian defined above
+     }
              
     }
-    
     
     # Checking whether convergence occurs when iter == maxit
     if (max(abs(gradient)) < (abs(f0)+fscale)*tol){
